@@ -82,6 +82,14 @@ int main(int argc, char** argv){
 	for_each(mm.begin(),mm.end(),boost::bind(&printString,
 												boost::bind(&map<int,string>::value_type::second,_1)));
 	
+	//usage 5 
+	//if(x>5 && x<=10)
+	/*
+	int count = count_if(iv.begin(),iv.end(),boost::bind(logical_and<bool>(),
+															boost::bind(greater<int>(),_1,5),
+															boost::bind(less_equal<int>(),_1,10)));
+	*/
+		
 	
 	return 0;
 }
