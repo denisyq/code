@@ -10,16 +10,18 @@ int main(int argc, char **argv){
 	//socket
 	int listener;   //listen socket
     struct sockaddr_in addr, their_addr;  
-    addr.sin_family = AF_INET; //why not AF_INET
+    addr.sin_family = AF_INET;
     addr.sin_port = htons(SERVER_PORT);
     addr.sin_addr.s_addr = inet_addr(SERVER_HOST);
     socklen_t socklen = sizeof(struct sockaddr_in);
 
     CHK2(listener, socket(AF_INET, SOCK_STREAM, 0));             //socket
     setnonblocking(listener);                                    //set nonblocking
+	int val = 1;												 //reuse addr/port in time_wait
+	CHK(setsockopt(listener, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(int)));
     CHK(bind(listener, (struct sockaddr *)&addr, sizeof(addr))); //bind
-    CHK(listen(listener, 1));                                    //listen
-
+    CHK(listen(listener, SOMAXCONN));                            //listen
+	
 	//epoll 
     static struct epoll_event ev, events[EPOLL_SIZE];
     ev.events = EPOLLIN | EPOLLET; //event set to EPOLLIN and ET mode
