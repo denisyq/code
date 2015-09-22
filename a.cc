@@ -1,13 +1,17 @@
-#include <sys/time.h>
 #include <iostream>
-#include <stdio.h>
 #include <unistd.h>
+#include <boost/thread/thread.hpp>
+#include <boost/shared_ptr.hpp>
 using namespace std;
 
-int main(int argc, char** argv){
-	struct timeval tv1,tv2;
-	gettimeofday(&tv1,NULL);
-	sleep(2);
-	gettimeofday(&tv2,NULL);
-	cout<<showpoint<<(double)(tv2.tv_sec-tv1.tv_sec)<<endl;
+void createThread(void){
+	cout<<"thread create!!" <<endl;
 }
+int main(int argc, char** argv){
+	boost::thread thread(&createThread);
+	thread.join();
+	//boost::shared_ptr<int> i = &x;
+
+	return 0;
+}
+

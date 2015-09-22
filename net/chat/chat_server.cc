@@ -1,4 +1,5 @@
 #include "chat.h"
+#include <signal.h>
 using namespace std;
 
 list<int> clients_list;
@@ -66,28 +67,32 @@ int handle_message(int client)
     char buf[BUF_SIZE], message[BUF_SIZE];
     bzero(buf, BUF_SIZE);
     bzero(message, BUF_SIZE);
-
+	//signal(SIGPIPE,SIG_IGN);
     int len;
 
     CHK2(len,recv(client, buf, BUF_SIZE, 0));  //receive msg
 
     if(len == 0){   //client error/close, close socket and remove from list
-        CHK(close(client));
-        clients_list.remove(client);
+        //CHK(close(client));
+		if(close(client)<0) cout<<"close socket error"<<endl;
+        //clients_list.remove(client);
     }else{          //client msg is good
         if(clients_list.size() == 1){
             CHK(send(client, STR_NOONE_CONNECTED, strlen(STR_NOONE_CONNECTED), 0));//one client
             return len;
         }
 		//TODO rcv message has header to who, no need to send msg to all 
+		//int to_client = atoi(buf[0]);
+        //sprintf(message, STR_MESSAGE, client, &buf[1]);
         sprintf(message, STR_MESSAGE, client, buf);
+		
         list<int>::iterator it;
         for(it = clients_list.begin(); it != clients_list.end(); it++)
         {
-           if(*it != client)
-           { 
-                CHK(send(*it, message, BUF_SIZE, 0));
-           }
+           if(*it != client){
+				//CHK(send(*it, message, BUF_SIZE, 0));
+				if(send(*it, message, BUF_SIZE, 0)<0) cout<<"send error "<<errno<<endl;
+		   }
         }
     }
 

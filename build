@@ -1,0 +1,2 @@
+#!/bin/bash
+g++ a.cc -o a -I $BOOST_ROOT -L$BOOST_ROOT/stage/lib -lboost_thread -lboost_system -lpthread
