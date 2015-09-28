@@ -2,13 +2,21 @@
 #include <unistd.h>
 #include <boost/thread/thread.hpp>
 #include <boost/thread/mutex.hpp>
+
+// 1. std::cout is not thread safe, need io_mutex protect to print
+// 2. use lock guard: 
+//			boost::mutex::scoped_lock lock(mutex)  
+//			boost::unique_lock<boost::mutex> lock(io_mutex) ##type could change to boost::timed_mutex
+
+
 using namespace std;
 
 int index_=1;
 boost::mutex io_mutex,mu;
 
 void add(void){
-	sleep(3);
+	//sleep(3);
+	boost::this_thread::sleep(boost::posix_time::seconds(10));
 	{
 		//boost::unique_lock<boost::mutex> scoped_lock(mu);
 		//typedef boost::unique_lock<boost::mutex> scoped_lock;

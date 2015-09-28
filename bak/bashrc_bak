@@ -1,0 +1,76 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+# alias
+alias j1='cd /home/luyanqing/sandbox/J1LTE/android'
+alias j12='cd /home/luyanqing/sandbox/J1LTE2/android'
+alias x='cd /home/luyanqing/sandbox/xcover3lte/android'
+alias degas='cd /home/luyanqing/sandbox/degas/android'
+alias young='cd /home/luyanqing/sandbox/young2/android'
+alias 116='cd /home/luyanqing/sandbox/t116/android'
+alias shark='cd /home/luyanqing/sandbox/shark/android'
+alias fm='cd vendor/samsung/common/packages/apps/HybridRadio_ESS'
+alias fullbuild='source fullbuild'
+alias audiohw='source audio'
+alias apmb='source apmb'
+alias buildmm='source new_mm'
+alias go='source go'
+alias audiodevice='source audiodevice'
+alias muduo='cd /home/luyanqing/bin/muduo/muduo'
+alias code='cd /home/luyanqing/myCode/code'
+alias boost='cd /home/luyanqing/bin/boost_1_58_0/'
+set fdm=syntax
+#JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+#export LD_LIBRARY_PATH=$BOOST_ROOT/stage/lib
+
+JAVA_HOME=/usr/local/jdk1.6.0_45
+MUDUO_HOME=/home/luyanqing/bin/build/release-install
+export BOOST_ROOT=/home/luyanqing/bin/boost_1_58_0
+#export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$BOOST_ROOT/stage/lib/:$CLASSPATH
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:$MUDUO_HOME/include:$BOOST_ROOT
+export LD_LIBRARY_PATH=$BOOST_ROOT/stage/lib:$LD_LIBRARY_PATH
+export PATH=/home/luyanqing/bin/cmake-3.2.2-Linux-x86_64/bin:/usr/local/p4v-2014.1.888424/bin:/home/luyanqing/bin:$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+
+
