@@ -21,6 +21,10 @@ int main(int argc, char** argv){
 	return 0;
 }
 
+boost::shared_ptr<io_service::work> work_ptr(new io_service::work(service));
+
+shared_array<int> array(new int[10]);
+
 
 
 
