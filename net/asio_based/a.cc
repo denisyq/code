@@ -30,42 +30,25 @@ public:
 
   void start()
   {
-    socket_.async_read_some(boost::asio::buffer(data_, max_length),
+    boost::asio::async_read(socket_,
+		boost::asio::buffer(data_, max_length),
         boost::bind(&session::handle_read, this,
-          boost::asio::placeholders::error,
-          boost::asio::placeholders::bytes_transferred));
+          boost::asio::placeholders::error));
   }
 
 private:
-  void handle_read(const boost::system::error_code& error,
-      size_t bytes_transferred)
+  void handle_read(const boost::system::error_code& error)
   {
     if (!error)
     {
-		std::cout<<bytes_transferred<<std::endl;
-      boost::asio::async_write(socket_,
-          boost::asio::buffer(data_, bytes_transferred),
-          boost::bind(&session::handle_write, this,
-            boost::asio::placeholders::error));
-    }
-    else
-    {
-      delete this;
-    }
-  }
-  void handle_write(const boost::system::error_code& error)
-  {
-    if (!error)
-    {
-      socket_.async_read_some(boost::asio::buffer(data_, max_length),
-          boost::bind(&session::handle_read, this,
-            boost::asio::placeholders::error,
-            boost::asio::placeholders::bytes_transferred));
-    }
-    else
-    {
-      delete this;
-    }
+		std::cout<<"data_ "<<data_;
+		boost::asio::async_read(socket_,
+			boost::asio::buffer(data_, max_length),
+    	    boost::bind(&session::handle_read, this,
+    	      boost::asio::placeholders::error));
+	}
+	else
+		std::cout<<"read more than max"<<std::endl;
   }
 
   tcp::socket socket_;

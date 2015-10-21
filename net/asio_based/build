@@ -1,2 +1,7 @@
 #!/bin/bash
-g++ -g $1 -o a -L$BOOST_ROOT/stage/lib -lboost_thread -lboost_system -lpthread 
+
+# add the following in .bashrc
+#export BOOST_ROOT=/home/luyanqing/bin/boost_1_58_0
+#export LD_LIBRARY_PATH=$BOOST_ROOT/stage/lib:$LD_LIBRARY_PATH
+
+g++ -g $1 -o a -I $BOOST_ROOT -L$BOOST_ROOT/stage/lib -lboost_thread -lboost_system -lpthread 
