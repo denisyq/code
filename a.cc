@@ -54,4 +54,31 @@ private:
 	char data_[max_len]
 	
 };
+class chat_server{
+publib:
+	chat_server(io_service service, endpoint& ep):
+		service_(service),acceptor_(service_,ep){
+			start_server();
+		}	
+	void start_server(){
+		session* se(new session);
+		acceptor_.async_accept(se->socket(),
+			boost::bind(&chat_server::handle_accept, this,se, boost::asio::placeholders::error))
+	}
+	void handle_accept(session* se, boost::system::error_code& ec){
+		if(!ec)
+			se->start();
+		start_server();
+	}
+}
 
+class sessin{
+public:
+	session(io_service)
+		: socket(service){}
+	
+}
+
+boost::asio::dealine_timer timer(service, boost::posix_time::seconds(1));
+timer.async_wait(handle);
+service.run();

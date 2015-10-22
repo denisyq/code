@@ -8,7 +8,7 @@ using namespace std;
 
 /* Note:2015/06/24, the first time debug class Mutex/MutexLockGuard/Condition and find it is not easy to write correctly
  * all at one time even I have @chenshuo muduo library open source /muduo/base/Mutex.h 
- * One bug when write MutexLockGuard constructor, should use Mutex& mutex in pass-in para, I used Mutex mutex(line 43)
+ * One bug when write MutexLockGuard constructor, should use Mutex& mutex in pass-in parameter, I used Mutex mutex(line 41)
  * that cause when you call MutexLockGuard lock(mutex), we got a temp mutex copy and is not the mutex itself.
  * The same to Condition cons and both MutexLockGuard/Condition private variable.
  */

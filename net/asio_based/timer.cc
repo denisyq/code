@@ -4,8 +4,8 @@
 #include <boost/thread/thread.hpp>
 using namespace std;
 using namespace boost::asio;
-#define NUM1 0
-//#define NUM2 0
+//#define NUM1 0
+#define NUM2 0
 
 
 
@@ -43,7 +43,11 @@ int main(int argc, char** argv){
 /**********************************/
 #ifdef NUM2
 void handleTimeout(const boost::system::error_code ec){
-	cout<<"timer run out"<<endl;
+	// ec is important to check 1. timeout 2.cancelled
+	if(ec != boost::asio::error::operation_aborted)
+		cout<<"timer run out"<<endl;
+	else
+		cout<<"timer cancelled"<<endl;
 }
 int main(int argc, char** argv){
 	io_service service;	
@@ -51,7 +55,10 @@ int main(int argc, char** argv){
 	deadline_timer timer(service);
 
 	timer.expires_from_now(boost::posix_time::seconds(1));
+	boost::this_thread::sleep(boost::posix_time::seconds(2));
+	cout<<"sleep done and cancel"<<endl;	
 	timer.async_wait(handleTimeout);
+	timer.cancel();
 	service.run();	//if forget this, async function handle will not be called.
 	return 0;	
 }
