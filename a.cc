@@ -50,7 +50,7 @@ int main(int argc, char** argv){
 	s1.erase(s1.begin(),s1.begin()+s1.size()/2);
 	cout<<s1<<endl;
 	cout<<s2<<endl;
-#endif
+
 	//more
 	
 	//append/substr
@@ -69,9 +69,23 @@ int main(int argc, char** argv){
 	s1.replace(s1.begin(),s1.end(),"hello",4);
 	//s1.replace(s1.begin(),s1.end(),s2.begin(),s2.begin()+3);
 
+#endif
+	cout<<"size:"<<vec_char.size()<<" capacity:"<<vec_char.capacity()<<endl;
+	vec_char.erase(vec_char.begin()+2,vec_char.begin()+6);
+	cout<<"after erase:"<<endl;
+	cout<<"size:"<<vec_char.size()<<" capacity:"<<vec_char.capacity()<<endl;
+	cout<<"after shrink"<<endl;
+	vector<char>(vec_char).swap(vec_char);	
+	cout<<"size:"<<vec_char.size()<<" capacity:"<<vec_char.capacity()<<endl;
+	typedef boost::shared_ptr<string*> str_ptr;
 
-	
-
+	struct lessrefer {
+		template<typename T>
+		bool operator()(T t1,
+						T t2) const{
+			return *t1<*t2;
+		}
+	}
 
 
 
