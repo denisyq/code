@@ -2,12 +2,12 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <iostream>
 #include <boost/thread/thread.hpp>
+#include <boost/ref.hpp>
 using namespace std;
 using namespace boost::asio;
+
 //#define NUM1 0
 #define NUM2 0
-
-
 
 /**********************************/
 //simple timer
@@ -39,7 +39,12 @@ int main(int argc, char** argv){
 }
 #endif
 /**********************************/
-//2nd
+//deadline_timer API
+//--deadline_timer timer(io_service)
+//--timer.expires_from_now(posix_time)
+//--timer.expires_at();
+//--timer.async_wait(handle)
+//--timer.cancel()
 /**********************************/
 #ifdef NUM2
 void handleTimeout(const boost::system::error_code ec){
@@ -54,11 +59,11 @@ int main(int argc, char** argv){
 	io_service::work iwork(service);
 	deadline_timer timer(service);
 
-	timer.expires_from_now(boost::posix_time::seconds(1));
+	timer.expires_from_now(boost::posix_time::seconds(5)); //start timing
 	boost::this_thread::sleep(boost::posix_time::seconds(2));
 	cout<<"sleep done and cancel"<<endl;	
-	timer.async_wait(handleTimeout);
-	timer.cancel();
+	timer.async_wait(boost::bind(&handleTimeout,boost::asio::placeholders::error));
+	size_t ret = timer.cancel(); //cancel how many async tasks
 	service.run();	//if forget this, async function handle will not be called.
 	return 0;	
 }
