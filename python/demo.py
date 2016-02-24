@@ -22,8 +22,9 @@ print "world"
 #######################
 # if/for/while
 #######################
-#>,<,==,and,or,not,
+#>, >=, <, <=, ==, !=, is, is not, and, or, not,
 #for/while/if/else; continue/break/pass
+#in, not in, 
 a=10
 if a>10:
 	print ">10"
@@ -75,10 +76,11 @@ def foo(a,b,c=3):
 
 
 
-################
-#2 data sturct
-################
-
+####################
+#2 data sturcture
+####################
+#build-in data type:list,tuple,set,dict,string
+#standard lib: collections
 ################
 # list
 ################
@@ -134,9 +136,46 @@ a=tuple(a)
 #tuple use as key in dict, list can not
 #tuple could be ret from function
 
+
+#########
+#set
+#########
+#cons:
+s=set([1,2,3])
+s=set(list)
+
+len(s)
+s.clear()
+
+x in s / x not in s
+s.add(value)
+s.remove(value)
+s.discard(value)
+ret=s.pop()
+
+s=set([1,2,3])
+ss=set([1,2])
+ss.issubset(s) -> True
+ss <= s -> True
+ss < s -> True
+s.issuperset(ss)
+s >= ss
+s > ss
+
+
+
 #########
 # string
 #########
+#contants
+"2" in string.digits #True
+string.hexdigits
+string.octdigits
+string.whiltespace
+string.ascii_letters
+string.ascii_lowercase
+string.ascii_uppercase
+
 #join
 lst=['1','2','3']
 print "+".join(lst)
@@ -148,6 +187,9 @@ print "".join("hello world yes".split(" "))#delete space in string
 #find/rfind
 str="hello ,world HELLO"
 print str.find("world")
+
+#index/rindex
+str.index("he")
 
 #lower/upper/title
 print str.lower()#islower(),upper(),isupper()
@@ -173,6 +215,16 @@ str1= sorted(str)
 d= list(reversed(str))#reversed(str) needs list
 print ''.join(d)
 
+str.capitalize()
+str.endswith("abc")
+str.startswith("abc")
+str.swapcase()
+str.title()
+#isalpha(), isdecimal(), isdigit(), isnumeric(), islower(), isupper(), istitle()
+#str.splitlines()->split \r \n etc.
+
+
+
 # check not string
 def notString(notstr):
 	try: notstr + ''
@@ -189,23 +241,80 @@ phonebook={"adam":"1234",
 			"ben":"1111"}
 d=dict.fromkeys(['name','age'],'Unknown')
 
-#del/clear/len/copy/deepcopy
-if "ben" in phonebook: del phonebook["ben"]
-print len(phonebook)
-phonebook[123]="1234"
-print phonebook
+#len/clear
+len(dict)
+dict.clear()
 
-phonebook.clear()
-from copy import deepcopy
-dd = deepcopy(d);
-dc = d.copy()
-print d.get("hello","not available")
-d.pop("name")#same as del d['ben']
-key,value=d.popitem()#ramdon pop
-print key, value
+#element access
+phonebook["adam"] #is adam is not in phonebook, will raise KeyError
+print dict.get("adam","not available")
 phonebook.values()
 phonebook.keys()
 
+#setdefault/del/copy/deepcopy
+dict.setdefault(key) #if key in dict, return its value, if not, add it
+dict.update(dict)
+if "ben" in phonebook: del phonebook["ben"]
+#if "ben" not in phonebook:
+d.pop("name")#same as del d['ben']
+key,value=d.popitem()#ramdon pop, for destruction
+phonebook[123]="1234"
+
+from copy import deepcopy
+dd = deepcopy(d);
+dc = d.copy()
+
+#traverse
+pairs=[(k,v) for k,v in d.items()] #for traverse
+
+#sort
+sorted(d.items(),key=lambda d:d[1],reverse=True)
+
+
+####################
+#collections::deque
+####################
+d=deque([1,2,3,])
+dd=deque('string')
+
+#element
+dd[1]='s'
+
+#len/clear
+len(d)
+d.clear()
+d.count(value)
+
+#append/appendleft/extend/extendleft/remove/pop
+d.append('s')
+d.append(dd)
+d.appendleft('s')
+d.extend(dd)/d.extendleft(dd)
+d.insert(index,value)
+d.pop()/d.popleft()
+d.remove(value)
+del d[0]
+d.index(value)
+d.reverse()
+d.rotate(n)
+
+
+def tail(file, len):
+	with open("filename") as f:
+		d=deque(f,maxlen=len)
+
+#############################
+#heapq
+############################
+h=[]
+heapq.heappush(h,1)
+heapq.heappush(h,2)
+heapq.heappush(h,0)
+heapq.heappop(h)
+l=[1,3,2,4,2]
+heapq.heapify(l)
+heapq.nlargest(n,l,key=lambda x:x[0])
+heapq.nsmallest(n,l,key=lambda x:x[0])
 
 
 ##################
