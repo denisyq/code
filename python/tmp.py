@@ -30,4 +30,16 @@ isstring("hello")
 
 '''
 
-print("helo")
+#fileinput.filename()		#
+#fileinput.fileno()			#fd number
+#fileinput.lineno()			#line increase after next file
+#fileinput.filelineno()		#line increasa in one file
+#fileinput.isfirstline()	#
+#fileinput.isstdin()
+#fileinput.close()
+
+import os
+for f in os.listdir():
+	if f.endswith("txt"):
+		new_file=f.rstrip("txt")+"cpp"
+		os.rename(f,new_file)

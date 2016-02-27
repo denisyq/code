@@ -121,7 +121,8 @@ x.sort()#x is changed
 x.sort(reverse=True)
 cmp(2,1)
 x.sort(cmp)
-y= sorted(x)#x not changed
+y= sorted(x)
+y= sorted(x,key=lambda x:x[1])#x not changed
 >>> L
 [('a', 1), ('c', 3), ('d', 4), ('b', 6)]
 >>> L.sort(key=lambda x:x[1],reverse=True)#2nd parameter sort
@@ -391,43 +392,62 @@ for i in it:
 ################
 ##sorted ascending;array better than list, binary search should need ramdon access
 
-##API:
 data=[1,2,3,4,5,7,8]
-#will return index for insertion
-#support collections::deque, maybe better than list
+##API:
 bisect.bisect(data,4)
 bisect.bisect_right(data,4)
 bisect.bisect_left(data,4)
 
-#insert and keep ordered
-#if array or sequence container, insert is not efficient api
-#insort has insert(), not support collections::deque(3.5 above support)
 bisect.insort(data,4)
 bisect.insort_left(data,4)
 bisect.insort_right(data,4)
+
+#bisect will return index for insertion
+#support collections::deque, maybe better than list
+#insert and keep ordered
+#if array or sequence container, insert is not efficient api
+#insort has insert(), not support collections::deque(3.5 above support)
 
 
 
 ################
 ##file:fileinput
 ################
-#fileinput.filename()		#
-#fileinput.fileno()			#fd number
-#fileinput.lineno()			#line increase after next file
-#fileinput.filelineno()		#line increasa in one file
-#fileinput.isfirstline()	#
-#fileinput.isstdin()
-#fileinput.close()
+#API:
+fileinput.filename()		#
+fileinput.fileno()			#fd number
+fileinput.lineno()			#line increase after next file
+fileinput.filelineno()		#line increasa in one file
+fileinput.isfirstline()	
+fileinput.isstdin()
+fileinput.close()
+
+#Example:
 import fileinput
 import sys
 for line in fileinput.input(sys.argv[1:]):
 	if fileinput.isfirstline():
 		print("*"*10,fileinput.filename(),fileinput.filelineno(),line,end='')
 
+##############
+#file IO
+##############
+fp=open("filename",r) #with open() as f:
+fp.read()
+fp.readline()
+fp.readlines()
+fp.write()
+fp.writelines()
+fp.flush()
+fp.seek()
+fp.tell()
+fp.close()
+
 
 ###############
 #file:linecache
 ###############
+#API:
 linecache.getline("filename",lineno)
 linecache.getlines("filename")[0:4]
 linecache.checkcache("filename")
@@ -437,12 +457,63 @@ linecache.clearcache("filename")
 
 ##############
 #os
+#shutil
 ##############
-1. os.listdir()
-2. os.rename(src,dest)
+#API:
+os.listdir(path='.')            #ls
+os.chdir("/home/")              #cd
+os.getcwd()                     #pwd
+os.getlogin()                   #who am i
+os.uname()                      #uname
+os.system("ls")                 #run linux command
 
+#dir
+os.path.dirname("/home/luyq/note.py")               #get dir name /home/luyq##could use os.path.split()[1]
+os.mkdir("home")                #mkdir one dir
+os.makedirs("home/luyq")        #mkdir -p dir
+os.rmdir("home")                #rm dir without -r
+shutil.rmtree("home")           #rm dir with -r
+os.rename(src,dest)             #mv dir
+shutil.copytree("old_dir","new_dir_not_existed")
+shutil.copy("old_file","new_dir/new_file")
+#file
+os.path.dirname("home/luyq/note.py") #get filename: note.py/could use os.path.split("home/luyq/note.py")[0]
+os.mknod("filename")            #touch
+os.access("filename",os.R_OK)   #check file could Read/os.W_OK/os.X_OK
+os.stat("filename")             #get file status
+shutil.copyfile("oldfile","newfile")  #copy file
+shutil.copy("olddir","newfile")   #olddir
+os.rename(src, dest)            #mv file
+os.remove(filename)             #rm file
+shutil.move("filename","newPosition")  #move file
+
+os.path.isfile()                #check is file
+os.path.isdir()                 #check is dir
+os.path.isabs()                 #check is absolute dir
+os.path.exists()                #check path exist
+os.path.split()                 #return dir and file/os.path.split("home/lu.py"), return ["home","lu.py"] 
+os.path.splitext()
+
+#demo1:
+if os.access("filename",os.R_OK):
+	with open("filename") as f:
+		f.readline()
+
+#demo2:
+#modify *.cpp files
 import os
+import os.path
 for f in os.listdir():
 	if f.endswith("txt"):
-		new_file=f.rstrip("txt")+"cpp"
+		new_file=os.path.splitext(f)[0]+".cpp"
+		#new_file=f.rstrip("txt")+"cpp"
 		os.rename(f,new_file)
+
+
+################
+#time
+################
+start=time.time()
+time.sleep(4)
+gap=time.time()-start
+
