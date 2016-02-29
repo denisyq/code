@@ -243,13 +243,19 @@ phonebook={"adam":"1234",
 			"ben":"1111"}
 d=dict.fromkeys(['name','age'],'Unknown')
 
+key=['a','b','c']
+value=['aaaa','bbb','cccc']
+d=dict(zip(key,value))
+d.setdefault("d")
+
+
 #len/clear
 len(dict)
 dict.clear()
 
 #element access
 phonebook["adam"] #is adam is not in phonebook, will raise KeyError
-print dict.get("adam","not available")
+dict.get("adam","not available")
 phonebook.values()
 phonebook.keys()
 
