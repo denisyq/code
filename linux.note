@@ -1,2 +1,6 @@
 #1 how to build shared library
 gcc -fPIC -shared -o abc.so abc.c
+
+#2如何在putty中设置中文
+1. putty的option，找到windows->translation,里面有个地方设置utf-8
+2. 在file中写中文，保存可能会遇到write error，看下:set fenc,如果不是utf-8，需要在.vimrc里设置set fileencoding=utf-8
