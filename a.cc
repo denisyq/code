@@ -19,10 +19,14 @@ void printChar(char a){
 void printstring(string& s, const char* name){
 	cout<<name<<": "<<s<<endl;
 }
+#define SIZE (sizeof(array)/sizeof(array[0]));
+int array[10]={1,1,2,3,4};
+
 int main(int argc, char** argv){
 	vector<int> iv(10,1);
 	vector<int> iv2(iv);
-	iv2.insert(iv2.begin(),iv);
+	iv2.insert(iv2.begin()+1,iv.begin(),iv.end());
+	
 	return 0;
 }
 
