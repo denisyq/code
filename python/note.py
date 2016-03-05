@@ -16,9 +16,10 @@
 6. comment: #
 7. comment block: ''',''',""","""
 8. dir(list): show list API
-#print in one line
+#带逗号是显示在同一行
 print "hello",
-print "world"
+print "world" 
+
 
 #######################
 # if/for/while
@@ -66,16 +67,52 @@ if [name,passwd] in database:
 ###############
 def foo():
 	print("hello",end='')
+
+#可接受任意参数
+def foo(*args):
+
+#只接受关键字参数
+def foo(a,*,key)#foo(1,key=2)
+
+#函数返回多个值,其实返回的是tuple
+def foo():
+	return 1,2,3
+a,b,c = foo()
+
+#带有默认参数
 def foo(a,b,c=3):
-	if a == b: pass
-	else: pass
-	return c
 
+#定义inline函数
+add=lambda x,y:x+y
+add(1,2)
 
+#定义callback函数
+def apply_async(func,args,*,callback):
+	result = func(*args)
+	time.sleep(2)
+	callback(result)
 
+class ResultHandler:
+	def __init__(self):
+		self.sequence=0
+	def handler(self,result):
+		self.sequence += 1
+		print('sequence={} Got: {}'.format(self.sequence,result))
 
+handler=ResultHandler()
+apply_async(add,1,2,callback=handler.handler)
 
+#除了用class来构造回调函数，还可以用闭包来做callback
+def make_handler():
+	sequence = 0
+	def handler(result):
+		nonlocal sequence
+		sequence += 1
+		print('sequence={} Got: {}'.format(sequence,result))
+	return handler
 
+handler = make_handler()
+apply_async(add,1,2,callback=handler)
 
 ####################
 #2 data sturcture
@@ -232,6 +269,9 @@ def notString(notstr):
 	try: notstr + ''
 	except TypeError: pass
 	else: raise TypeError
+
+# format显示
+print('{},{}'.format(a,b))
 
 ################
 # dict - as map
@@ -523,3 +563,20 @@ start=time.time()
 time.sleep(4)
 gap=time.time()-start
 
+################
+#闭包
+################
+def make_add(addend):
+    def adder(base):
+        print('base={},addend={}'.format(base,addend))
+        return base+addend
+    return adder
+
+a=make_add(10)
+b=make_add(20)
+
+print(a(100),b(100))
+#result:
+base=100,addend=10
+base=100,addend=20
+110 120

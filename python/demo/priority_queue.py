@@ -8,8 +8,8 @@ class priority_queue:
 	def __init__(self):
 		self._queue=[]
 		self._index=0
-	#data could be string, heapq.heappush use tuple[0] to sort.
-	#if need descending order, let priority negative
+	#如果是string，使用首字母排列
+	#基本上是从小到大排列，如果需要大到小，需要把priority设置为负数
 	def push(self,data,priority):
 		heapq.heappush(self._queue,(priority,data))   #asceding order
 		#heapq.heappush(self._queue,(-priority,data)) #descending order
