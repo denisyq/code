@@ -63,7 +63,7 @@ if [name,passwd] in database:
 	print "find it"
 
 ###############
-# function
+# function 函数
 ###############
 def foo():
 	print("hello",end='')
