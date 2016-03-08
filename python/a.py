@@ -4,7 +4,15 @@ def foo(a,b):
 	print('{}==a,{}==b'.format(a,b))
 
 
-a="hello world yes man."
-choice=["http","ftp","hello"]
+import re
+text=[]
+with open("tmp") as f:
+	for line in f.readlines():
+		add = [str for str in re.split(r'[\s,.:]\s*',line) if len(str) >=2]
+		text.extend(add)
 
-print([a for i in choice if a.startswith(i)])
+from collections import Counter
+c = Counter(text)
+for a,b in c.most_common(10):
+	print a,b
+
