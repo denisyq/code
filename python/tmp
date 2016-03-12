@@ -1,0 +1,10 @@
+#python note
+#------------
+1. python2.7 source code is located /usr/lib/python2.7
+2. python bin is located /usr/bin/python, use "ln -s /usr/bin/python3.2 python"
+3. Download new version 3.5 in /usr/local/bin, make link "sudo ln -s python3 python". If same python exists in /usr/bin which directs python2, could make /usr/local/bin priority to /usr/bin by modify $PATH.
+4. Some other suggestion said, not add "#! /usr/bin/python" in each python file. User python3.5 a.py or python2.7 a.py to run a.py.
+5. pip depends on different version of python, which means every python has its pip. pip2.7 install requests, could not be used in python3.5. Run "pip2.7 list" or "pip3.5 list"
+
+
+###################
