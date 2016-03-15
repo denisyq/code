@@ -15,3 +15,15 @@ gcc -fPIC -shared -o abc.so abc.c
 7. git stash | git branch bug | git checkout bug | git checkout master | git merge | git branch -d bug | git stash list | git stash pop/apply/drop
 8. git remote | git remote -v 
 **refer to : http://blog.jobbole.com/78960/**
+
+#4 一次创建多个目录
+mkdir -p /home/user/{test,test1,test2}
+
+#5 测试磁盘写入速度/灌完指定大小的文件
+dd if=/dev/zero of=/tmp/output.img bs=8k count=256k; rm -rf /tmp/output.img
+
+#6 测试磁盘读取速度
+hdparm -Tt /dev/sda
+
+#7 修改file时间戳
+touch -t 0712250000 file
