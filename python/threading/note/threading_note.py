@@ -22,6 +22,7 @@ import threading
 #6. isDaemon()/setDaemon():call it before thread start()
 #7. 因为GIL存在，python Thread不适合做CPU密集型操作，适合IO密集型，有等待IO阻塞操作的并发任务
 ###########################
+#threading :: Lock
 #threading :: RLock
 #mLock=RLock()
 #1. mLock.acquire()
