@@ -1,0 +1,145 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep -rin --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# enable pac proxy internet
+#export http_proxy=109.123.111.143:8080
+#export https_proxy=109.123.111.143:8080
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+alias j1='cd /home/luyanqing/sandbox/J1LTE/android'
+alias j12='cd /home/luyanqing/sandbox/J1LTE2/android'
+alias x='cd /home/luyanqing/sandbox/xcover3lte/android'
+alias degas='cd /home/luyanqing/sandbox/degas/android'
+alias young='cd /home/luyanqing/sandbox/young2/android'
+alias 116='cd /home/luyanqing/sandbox/t116/android'
+alias shark='cd /home/luyanqing/sandbox/shark/android'
+alias fm='cd vendor/samsung/common/packages/apps/HybridRadio_ESS'
+alias fullbuild='source fullbuild'
+alias audiohw='source audio'
+alias apmb='source apmb'
+alias buildmm='source new_mm'
+alias go='source go'
+alias audiodevice='source audiodevice'
+alias audioservice='source audioservice'
+alias audioflinger='source audioflinger'
+alias muduo='cd /home/luyanqing/bin/muduo/muduo'
+alias code='cd /home/luyanqing/myCode/code'
+alias boost='cd /home/luyanqing/bin/boost_1_58_0/'
+alias asiodemo='cd /home/luyanqing/bin/boost_1_58_0/libs/asio/example/cpp03'
+alias libevent='cd /home/luyanqing/bin/libevent-2.0.22-stable'
+set fdm=syntax
+#JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+#export LD_LIBRARY_PATH=$BOOST_ROOT/stage/lib
+#export CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$BOOST_ROOT/stage/lib/:$CLASSPATH
+
+JAVA_HOME=/usr/local/jdk1.6.0_45
+MUDUO_HOME=/home/luyanqing/bin/build/release-install
+export BOOST_ROOT=/home/luyanqing/bin/boost_1_58_0
+export LIBEVENT_ROOT=/home/luyanqing/bin/libevent-2.0.22-stable
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:$MUDUO_HOME/include:$BOOST_ROOT:$LIBEVENT/stage/include
+export LD_LIBRARY_PATH=$BOOST_ROOT/stage/lib:$LIBEVENT/stage/lib:$LD_LIBRARY_PATH
+export PATH=/home/luyanqing/bin/cmake-3.2.2-Linux-x86_64/bin:/usr/local/p4v-2014.1.888424/bin:/home/luyanqing/bin:$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
+

@@ -27,3 +27,7 @@ hdparm -Tt /dev/sda
 
 #7 修改file时间戳
 touch -t 0712250000 file
+
+#8 find|xargs
+find ./ -maxdepth 1 ! -type d -iname "*" |xargs -i cp {} bak #每个非目录文件copy进bak文件夹
+find ./ -maxdepth 1 ! -type d -iname "*" |xargs -i mv {} {}.bak #修改每个文件成*.bak
