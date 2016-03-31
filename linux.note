@@ -11,9 +11,9 @@ gcc -fPIC -shared -o abc.so abc.c
 3. git config --global user.email ""
 4. ssh-keygen 产生的id_rsa.pub在.ssh里面，复制到github的ssh秘钥
 5. git remote add origin https://github.com/denisyq/code.git
+   git remote | git remote -v 
 6. git push -u (第一次需要-u)
 7. git stash | git branch bug | git checkout bug | git checkout master | git merge | git branch -d bug | git stash list | git stash pop/apply/drop
-8. git remote | git remote -v 
 **refer to : http://blog.jobbole.com/78960/**
 
 #4 一次创建多个目录
