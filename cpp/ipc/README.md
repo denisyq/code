@@ -9,3 +9,5 @@
 unnamed pipe 可以在一个main里fork出两个进程。
 所以一个main代表一个进程，多线程可以分享这个main里面的全局变量，
 果然是比多进程要高效的多
+
+参考链接，有实例代码：https://segmentfault.com/a/1190000004061543?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io
