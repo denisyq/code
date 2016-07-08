@@ -17,11 +17,14 @@ int main(int argc, char** argv){
 	CHK2(id,fork());
 	switch(id){
 		case 0:
+			cout<<"Child process!"<<endl;
+			close(pipe_fd[1]);
 			CHK(read(pipe_fd[0],data,sizeof(data)));//blocking here, if father not write complete
 			cout<<"child read:"<<data<<endl;
 			exit(1);
 		default:
-			cout<<"child id:"<<id<<endl;
+			cout<<"Father:child id:"<<id<<endl;
+			close(pipe_fd[0]);
 			CHK(write(pipe_fd[1],welcome,sizeof(welcome)));
 			cout<<"father write done"<<endl;
 
