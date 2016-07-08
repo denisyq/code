@@ -1,3 +1,7 @@
+/* pipe, unnamed
+ * 管道有个劣势，只能一个读，一个写，单向传输
+ * 不能双向读写
+ */
 #include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
