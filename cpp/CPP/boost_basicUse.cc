@@ -68,3 +68,14 @@ BOOST_ASSERT(2>1);
 BOOST_ASSERT(2>1,"boost assert");
 ////////////////////////////////////////////////////////
 
+/* boost::string */
+#include <boost/algorithm/string/case_conv.hpp>
+std::string str_lower = boost::to_lower_copy(str1)
+std::string str_upper = boost::to_upper_copy(str1)
+
+boost::to_lower(str1);
+boost::to_upper(str1);
+//boost has other api, but python is better to handle string
+////////////////////////////////////////////////////////////
+
+
