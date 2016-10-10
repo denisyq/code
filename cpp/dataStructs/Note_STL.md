@@ -1,8 +1,8 @@
----
+****
  * NOTES of "Effective STL"
  * Written on May 13rd, 2016
  * Author: Dennis LU
----
+****
 
 #1 容器
 1. 慎重选择容器类型
@@ -327,7 +327,6 @@
 
 43. 算法调用优于手写的循环
 	- for_each比for要好，能捕捉异常并释放资源
-	- 
 
 44. 容器的成员函数优于同名算法函数
 	- set.find VS. find()
