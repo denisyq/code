@@ -1,8 +1,8 @@
-/**************************
+---
  * NOTES of "Effective STL"
  * Written on May 13rd, 2016
  * Author: Dennis LU
- * ************************/
+---
 
 #1 容器
 1. 慎重选择容器类型
@@ -105,9 +105,9 @@
 	- 最好还是上锁安全点
 	- RAII(Resource Acquisition is initialization), 用RAII来创建LOCK
 	
-/******************
+
 #2 vector && String
-*******************/
+
 13. vector & string 优先动态分配的数组
 	- new出来的不要忘记delete，选择正确的delete或者delete[],不要重复delete
 	- 用vector等方便内存管理
@@ -139,9 +139,9 @@
 	- 可以使用deque<bool> 或者 bitset
 	
 
-/************
+
 #3 关联容器
-*************/
+
 19. 相等和等价的区别
 	- 相等的概念是基于 operator==
 	- 等价的概念是基于 operator<, 等价的关系是以“已排序区间中的对象值的相对顺序”为基础
@@ -250,9 +250,9 @@
 	- hash_set
 	- hash_map
 	
-/*******************
+
 #4 迭代器 Iterator
-********************/
+
 26. iterator 优先于 const_iterator & reverse_iterator & const_reverse_iterator
 	- insert/erase 入参不能使用除iterator外的迭代器
 	- iterator = reverse_iterator.base() //NOT the same element point
@@ -282,9 +282,9 @@
 	- iter(riter.base()) -> 3后面的4
 	
 
-/****************
+
 #5 算法
-****************/
+
 30. 确保目标区间足够大
 	- demo代码：
 		int add5(int x);
@@ -322,9 +322,9 @@
 		binary_search(iv.begin(),iv.end(),value, greater<int>())
 		
 
-/****************		
+		
 #7 在程序中使用STL
-*****************/
+
 43. 算法调用优于手写的循环
 	- for_each比for要好，能捕捉异常并释放资源
 	- 
