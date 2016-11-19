@@ -67,4 +67,54 @@ int main(void){
 }
 
 
+/**************************************/
+/* self-defined KEY */
+
+class Person{
+public:
+    bool operator==(const Person& p){
+        return memcmp(this, &p, sizeof(Person)) == 0? true:false;
+    }
+    Person(string name_ = ""): name(name_){}
+    string name;
+};
+struct Person_hash{
+    size_t operator()(const Person& p) const{
+        int hash = 7;
+        for(auto i=0; i<p.name.length();++i){
+            hash = hash*31 + p.name[i];
+        }
+        return hash;
+    }
+};
+struct Person_cmp{//similar to Person::operator==(const Person& p)
+    bool operator()(const Person& p1, const Person& p2) const{
+        return memcmp(&p1, &p2, sizeof(Person)) == 0? true:false;
+    }
+
+};
+int main(void){
+    unordered_map<Person, string, Person_hash, Person_cmp> imap;
+    Person man1("gus");
+    Person man2("goodweather");
+    Person man3("zack");
+    Person man4("gus");
+    Person woman1("kelly");
+    Person woman2("nora");
+    imap.insert(make_pair(man1,"is gus"));
+    imap.insert(make_pair(man2,"is goodweather"));
+    imap.insert(make_pair(man3,"is zack"));
+    imap.insert(make_pair(man4,"is gus2"));
+    imap.insert(make_pair(woman1,"is kelly"));
+    imap.insert(make_pair(woman2,"is nora"));
+
+
+    cout<<imap.size()<<" "<<imap.bucket_count()<<endl;
+    for(auto i = 0; i < imap.bucket_count(); ++i){
+        cout<<"bucket #"<<i<<":"<<imap.bucket_size(i)<<endl;
+        for(auto j = imap.begin(i); j != imap.end(i); ++j){
+            cout<<j->first.name<<" : "<<j->second<<endl;
+        }
+    }
+}
 
