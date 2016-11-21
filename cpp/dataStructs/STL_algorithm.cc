@@ -6,6 +6,7 @@
 #include <queue>
 #include <memory.h>
 #include <unordered_map>
+#include <random>
 using namespace std;
 
 void print(int i){
@@ -44,7 +45,8 @@ int main(void){
 	reverse(ivv.begin(), ivv.end());
 	reverse_copy(ivv.begin(), ivv.end(), dest.begin());
 	//for_each(dest.begin(), dest.end(), print);cout<<endl;
-
+	srand((unsigned)time(0));
+	shuffle(iv.begin(), iv.end(), default_random_engine(rand()));
 
 	//SORT
 	//partition > nth_element > partial_sort > sort > stable_sort
