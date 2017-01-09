@@ -41,6 +41,13 @@ file.seekg(相对位置，参照位置)
 file.seekg(ios::end)
 file.seekg(5,ios::beg)
 int pos = file.tellg() //返回指针位置k
+//tellg用法
+file.readline((char*)str.c_str(),100);
+int len = file.tellg();
+/* 等同于 */
+size_t pos = str.find("\n");
+if(pos != string::npos)
+	pos == len;
 
 //参照位置：
 ios::beg
