@@ -61,6 +61,30 @@ file.write(char*, int length)
 file.getline(char*, int length) //若length很长，读到'\n‘结束
 file.get(char)
 file.put(char)
+文件新写入一行，在中间某处，会覆盖后面的文字，所有中间插入一行的方法是：
+->读取文件进一个string，string足够大
+->在中间找“\n”, 确定是哪行
+->string中插入待写入字符串（带换行符），所有重写文件中
+‘
+ 44                 fstream ff1, ff2;
+ 45                 ff1.open("abc", ios::in);
+ 46                 ff2.open("abc1", ios::out);
+ 47                 if(ff1 && ff2){
+ 48                     ff1.seekg(0, ios::end);
+ 49                     size_t len = ff1.tellg();
+ 50                     ff1.seekg(0, ios::beg);
+ 51                     string tmp; tmp.resize(len,'\0');
+ 52                     ff1.read((char*)tmp.c_str(),len);
+ 53                     size_t pos = tmp.find("\n");
+ 54                     if(pos != string::npos){
+ 55                         string hello = tmp.substr(0,pos+1) + "hello\n" + tmp.substr(pos+1, len-pos-1);
+ 56                         cout<<hello;
+ 57                     }
+ 58                 }else
+ 59                     cout<<"open file failed"<<endl;
+ 60                 ff1.close();
+ 61                 ff2.close();
+’
 
 5. gcount
 cin.get 后 cin.gcount()
