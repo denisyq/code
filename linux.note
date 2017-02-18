@@ -1,5 +1,7 @@
 #1 how to build shared library
 gcc -fPIC -shared -o abc.so abc.c
+//use it. g++ main.cc -o main -L. -labc
+//main binary should be with so library, or get can not load shared library error.
 
 #2如何在putty中设置中文
 1. putty的option，找到windows->translation,里面有个地方设置utf-8
@@ -31,3 +33,7 @@ touch -t 0712250000 file
 #8 find|xargs
 find ./ -maxdepth 1 ! -type d -iname "*" |xargs -i cp {} bak #每个非目录文件copy进bak文件夹
 find ./ -maxdepth 1 ! -type d -iname "*" |xargs -i mv {} {}.bak #修改每个文件成*.bak
+
+#9 ulimit -a
+stack size in linux: 8M (can use "ulimit -s 1024" to change size)
+stack size in wins:  1M
