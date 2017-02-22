@@ -260,7 +260,8 @@
 
 	#移除空白行
 	sed -i '/^$/d' file  # /pattern/d 移除
-
+	#删除某些行
+	sed -i 'm,nd' file #delete m-n lines　删除m到n行
 	#\w\+ 匹配一个单词,,,,已匹配的标记&
 	echo this is an example | sed 's/\w\+/[&]/g' ==> [this] [is] [an] [example]
 	##这些都是正则表达式的内容
