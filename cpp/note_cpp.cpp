@@ -297,18 +297,77 @@ static成员函数不能是const,也不能是虚函数
 	//如果后来再加上一个string date;这样的赋值拷贝就不全了
 	
 	
+13. 对象的资源管理
+	以前用new delete 来管理资源，但是很容易在new后某处返回，造成delete没有执行，造成资源泄露。
+	如何管理资源？第一用RAII的思想，在构造里申请内存，在析构里销毁，这样保证不泄露。第二是用智能指针来管理内存。
+	智能指针能管理一个对象，有时不太容易管理一个数组，顺序存储空间，这时一般用vector或者boost::scoped_array/shared_array
+	同样是智能指针，auto_ptr　有一个特性，是他在赋值给别人后，自己就成NULL,这样是保证一个指针指向一个对象，避免重复释放
+	shared_ptr 就没有这个问题，他使用的是计数器
+	最后的总结就是，不要手动设置new delete，因为很可能会忘记释放。尽量用vector/shapred_ptr/shared_array等
 
+14. 在资源管理中注意copy行为
+	在RAII的类中，如果有copy行为，会造成不可预期的局面
+	一般通过禁止copy constructor 或者赋值构造, 继承boost::noncopyable
+	或者通过增加计数器。。。这个一般用的少
 
+15. new 配队 delete, new[] => delete[]
+	int *p = new int(4);
+	delete p;
 
+	int *p = new int[4];
+	delete[] p;
 
+20. 宁可传递pass-by-reference-to-const代替pass-by-value
+	值传递，有个很大的问题就是需要拷贝。拷贝出副本，如果是类，就会涉及到构造函数和析构，如果这个类还有继承，就还有涉及基类的构造，代价很大。
+	如果是const reference传递，可以避免这些个问题。
+　　另外，如果是子类用值传递的方式入参，入参的类型是基类，那么在副本构造时，子类会面临切割掉部分，因为会调用基类的构造，子类的部分功能没有了。
+　　
+	引用和指针的区别：
+	第一，引用需要初始化，赋初始值。所以在类的构造初始化时，不要在构造函数里赋值，要在初始化的方式赋值
+	第二，引用不能被修改
 
+	所以入参传递const引用，是个很好的选择。
+	但是入参是内置类型int char什么的，或者是STL的迭代器或函数对象，可以用pass-by-value,因为那个副本开销不大，也不需要担心类的切割。
 
+21. 必须返回对象时，别妄想返回reference
+	如果这个返回引用指向一个local stack 变量，那在函数结束时，该变量即销毁了，如何返回这个local变量的引用了？
+    如果是local-heaped 变量，那谁来销毁这个内存？如果后期调用多了，很容易管理混乱。
+	对于类对象返回问题，如果在单线程里面考虑，用static变量且返回值，而不是引用，可能好点。
+	const Rational operator * (const Rational& lh, const Rational& rh){
+		return Rational(lh.n * rh.n, lh.d * rh.d);
+	}
 
+22. 将成员变量申明为private
+	WHY 为啥要把成员变量设置成private? 我们一直都这么写，可都不知道为什么
+	因为如果成员变量是public, protected, 派生类内部函数实现是可以用基类的这些变量，如果需要改动或者删除了基类的这些public变量，影响了很多类。
+	但是如果是private变量，子类都看不见也没法用它来函数实现，所以影响的只是基类，这样就易于管理。
 
+23. 拿non-member函数替代member函数
+	因为non-member函数都访问不到private成员变量，所以他的封装性更好
+	什么是封装性更好？因为这个函数实现能访问public，那public变量有改动，这个函数就废了。封装性好，是提供了更好的独立性。
 
+26. 尽量延后变量定义的时间
+	用的时候再定义，这样如果定义了忘记用，也不会再一开始就有开销，这个一般是针对有构造和析构的类对象来讲。
+	不止延后变量定义的时间，直到非得使用他的前一刻。甚至应该尝试延后这份定义到能够给他初始实参为止。
+	string passwd(old_passwd);
+	要比下面更有效
+	string passwd;
+	passwd = old_passwd;
 
+27. 尽量少做转型动作
+	const_cast<T>()   -> 将const 转型成 non-const
+	static_cast<T>()  -> 用处最广，隐形转型
+	dynamic_cast<T>() -> 这个一般是这样用，子类对象赋给基类指针，这是想把基类指针往下转型到子类
+	reinterpret_cast<T>() 这两种用的少
 
+28. 避免返回的是指向内部私有的引用
+	如果有个函数返回的是个引用，而这个引用又是这个类的私有成员变量，那这个私有变量就可能被修改。
 
+30. inline的里里外外
+	inline的机理是，凡是在inline函数的调用处，都用inline函数来代替。缺点，会造成程序的体积变大。
+
+31. 将文件间的编译依存关系降到最低
+	
 
 
 
