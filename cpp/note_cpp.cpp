@@ -367,14 +367,107 @@ static成员函数不能是const,也不能是虚函数
 	inline的机理是，凡是在inline函数的调用处，都用inline函数来代替。缺点，会造成程序的体积变大。
 
 31. 将文件间的编译依存关系降到最低
+
+32. 确定你public继承一定是is-a关系
+	class Student: public Person{...};
+	这个例子是说，所有person的接口，Student都可以用
+
+	class Penguin: public Bird{
+		void fly();
+	};//Penguin　public继承Bird，但是他却不能用Bird::fly()
 	
+	class Square: public Rectangle{
+		void setHeight();
+	};//如果Rectangle有个API是改变高，但是不改变长度，那么Square能调用吗？不能。
+	
+	这两个例子就是说明，看起来是同一个事物，但是不能public继承，因为他们不是is-a关系
+	除了is-a关系，我们还有has-a关系和is-implemented-in-term-of根据某物实现出
+
+33. 不要遮掩继承而来的名称
+	比如在Derived class里面找个名称，编译器找某个名称时，先找local作用域，然后在Derived class里找，没有再到Base class里面找
+	还没有，继续找内含Base的那个namespace，在没有就找global作用域的。
+
+	如果想用Base的foo(int x),但是Derived也实现了foo(float x),怎么办？
+	class Base{
+	public:
+		void foo();
+		void foo(int x);
+		void foo(double x);
+	};
+	class Derived: public Base{
+	public:
+		using Base::foo;//这样Base::foo所有同名函数都可见
+		void foo(float x);
+		...
+	};
+	如果不想要Base::foo，故意想隐藏，可以在Derived实现同名foo来隐藏Base功能,不实现foo.
+
+34. 区分接口继承和实现继承
+	申明一个pure virtual函数的目的就是为了给Derived class　只继承函数接口. 
+	申明一个impure virtual　函数的目的就是为了给Derived class　提供函数接口和缺省实现。“你可以实现自己的函数，如果不愿意可以用我的缺省实现”
+	声明一个non virtual　函数的目的是为了不给Derived class任何修改的机会，他认为所有子类不应该修改这个功能实现
+
+36. 不重新定义继承而来的non-virtual函数
+37. 不重新定义继承而来的缺省参数值
+	class Shape{
+		public:
+			enum ShapeColor{ Red, Green, Blue};
+			virtual void draw(ShapeColor color = Red) const = 0;
+	};
+	class Rectangle : public Shape{
+	public:
+		virtual void draw(ShapeColor color = Green) const;
+	};
+
+	Shape* ps;
+	Shape* pr = new Rectangle;
+
+	pr->draw();
+
+	静态类型和动态类型？
+	这里面ps是静态类型, pr是动态类型，因为pr除了有Shape特性，还可以指向子类Rectangle
+
+	静态绑定和动态绑定？
+	静态绑定，就是在编译期间就决定好的参数
+	动态绑定，如同子类虚函数般，在运行期间再决定用哪个子类接口
+
+	这个例子中，virtual函数是动态绑定的，但是缺省参数却是静态绑定的。也就是说，我们调用了子类的接口，但是缺省值却是用的基类的缺省值。
+	这个机制是编译器决定的，这个比在”运行期“再决定绑定哪个缺省参数更加迅速。
+	缺省参数都是静态绑定的，所以子类不要修改继承而来的缺省参数。
 
 
+38. 通过复合塑造出has-a
+	template<typename T>
+	class Person{
+		public:
+			...
+		private:
+			string name;
+			Address address;
+			PhoneNumber voiceNumber;
+			list<T> rep;
+	};
+	也就是说，有时用public继承是一种is-a关系，但是你想继承的基类又不是完全is-a关系，这时除了用private继承，还可以用这种复合的方式来构造一个has-a关系
+	把他放在private里面，就可以使用。
+	
+39. 谨慎的使用private继承
+	private继承一般是因为基类含有某些实现技术，子类只是要这个实现罢了。只有函数实现部分需要被继承，接口则不需要。
+	private继承不需要有从属关系，在设计层面无意义，意义只在与软件实现。
+	private继承，基类的public/protected都会变成private供子类使用。
 
+	那如果38条的复用能实现，为啥还需要private继承？
+	当有protected成员或virtual函数牵扯进来的时候，才需要用到private继承，其他都可以用复用实现。
+	因为复用不能调用protected成员；而虚函数需要子类去实现，复用无效，或是想重新定义虚函数接口，则需要用private继承。
 
-
-
-
+	class Widget{//这种复用的方法
+	private:
+		class WidgetTimer : public Timer{
+		public:
+			virtual void onTick() const;
+		};
+		WidgetTimer timer;
+	};
+	
 
 
 
