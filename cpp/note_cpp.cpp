@@ -157,7 +157,10 @@ static 成员函数
 只能只用static变量，不能用非static变量
 static成员函数不能是const,也不能是虚函数
 
-
+9. const iterator VS iterator
+	1.iterator,const_iterator作用：遍历容器内的元素，并访问这些元素的值。iterator可以改元素值,但const_iterator不可改。跟C的指针有点像(容器均可以++iter,而vector还可以iter-n, iter+n,n为一整型,iter1-iter2:结果是difference_type类型，表两元素的距离.)
+	2.const_iterator 对象可以用于const vector 或非 const vector,它自身的值可以改(可以指向其他元素),但不能改写其指向的元素值.
+	3.const iterator与const_iterator是不一样的：声明一个 const iterator时，必须初始化它。一旦被初始化后，就不能改变它的值,它一旦被初始化后,只能用它来改它指的元素,不能使它指向其他元素。(因此const iterator几乎没什么用途)
 
 
 #######################################################
@@ -468,7 +471,14 @@ static成员函数不能是const,也不能是虚函数
 		WidgetTimer timer;
 	};
 	
+41. 了解编译期多态和运行期多态
+	编译期多态：又如重载函数，在编译期确定用哪个同名函数
+	运行期多态：有如虚函数，在运行期才能决定调用哪个函数
 
+
+42. 了解typename的双重意义
+	template<typename T> class Base{};
+	template<class T> class Base{};
 
 
 
