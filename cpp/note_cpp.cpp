@@ -506,3 +506,88 @@ static成员函数不能是const,也不能是虚函数
 	ps = &s2;//指针重新指向了s2的内存区域
 
 	以class为基础的入参，一般是const& 传递进函数，在函数内一般也不会改变其行为。
+
+2. const_cast/static_cast/dynamic_cast
+
+	const_cast 
+	用来消除const变量的const属性
+	const Widget& widget = rh;
+	Widget* pw = const_cast<Widget*>(widget);
+
+	static_cast: 用途最广的转换
+	double d = static_cast<double>(int);
+
+	dynamic_cast:将Base指针转换成子类指针
+	Base* base = &derived;
+	Derived *d = dynamic_cast<Derived*>(base);
+
+3. 不要以多态的方式来处理数组
+	一个函数的入参比如是Base* array，然后函数实现是遍历整个数组（每个元素的都是Base）
+	那编译期怎么知道每次往后移动多少偏移量？sizeof(Base)，一个元素的大小
+	好，那么如果你往里传递的是Derived array,　那编译期还是以为要偏移一个Base的大小去拿下一个元素位置数据，
+	这样就跟你Derived的数据位置不一致，显然数据就乱了。
+
+4. 非必要不提供 default constructor
+	class EquipmentPiece{
+	public:
+		EquipmentPiece(int num);
+	};
+	EquipmentPiece bestPieces[10];申请数组时，会出错，因为没有缺省构造函数
+	EquipmentPiece* bestPiece[10];申请指针没问题，不需要调用default ctors
+	没有default cons的坏处：
+	1. 这个类的构造函数是需要ID作为输入。而且他缺少缺省构造函数。那缺少default cons会带来的问题就是不能申请数组，得用指针数组来代替
+	2. 不适用很多template-base container classes，因为这些template-base都需要一个default cons来实例化
+
+10. 在constructors内阻止资源泄露
+	一般是这样，在构造函数里面，进行申请资源，比如有两个要申请。当第一个申请成功后，第二个却在申请是有异常。
+	因为有异常出现，所以控制权就移出构造函数之外，那么谁来删除第一个成功申请资源的对象？此时的类的析构函数是调用不到的。
+	
+	//这样写能捕获这个异常吗，try-catch
+	try{
+		pb = new BookEntry(...);
+	}catch(){
+		delete pb;
+		throw;
+	}
+	因为是异常,所以BookEntry都没有构造成功，没有构造成功，显然是无法实现赋值给pb这个步骤。所以这个时候，pb是NULL.　删除NULL指针虽然不会报错，但是无意义。
+	[delete 不怕删除NULL指针，但是害怕删除两次double delete,所以一般在delete成功后，都需要将指针设置NULL]
+	
+	解决方法：在BookEntry的构造函数内，在实现两个资源申请是，就要使用try_catch
+	BookEntry::BookEntry(){
+		try(){
+			IMG* img = new IMG();	
+			TXT* txt = new TXT();
+		}catch(){
+			delete img;
+			delete txt;
+			throw;
+		}
+	}
+
+
+	但是我们不是一般在初始化列表中来赋初始值吗？这种用构造函数赋值来初始化的方法不好。
+	那就是：
+	BookEntry():img( imgFileName != ""?new Image():0), audio( audioFilename != ""?new Audio():0){}
+	这是标准的初始化列表，那么这是在第二个资源申请时，出了异常怎么办？
+	所以应该在初始化的时候用函数来代替，然后在函数内实现了try_catch来捕获异常。
+
+	BookEntry():img(initImg()), audio(initAudio()){}
+	IMG* initImg(...){
+		if.... return new IMG();
+		else return 0;
+	}//因为是第一个，不需要try_catch异常，因为失败了，内存在没有申请成功。
+	Audio* initAudio(){
+		try{
+			return new AUDIO();
+		}catch(...){
+			delete img;
+			throw;
+		}
+	}
+
+
+
+
+
+
+

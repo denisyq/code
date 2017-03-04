@@ -292,6 +292,15 @@
 31. Shell内置命令
 	dir=$(ls -al)
 	cd command eval exit export fg fc getopts jobs kill read return wait
+32. 批量修改文件夹里文件名带空格
+	for file in $(ls *.jpg)
+	do
+		mv $file $new_name
+	done
+	#这样写不行，因为文件吗带空格，$file会变成两个文件
+
+	#正确的写法：
+	find ./ -iname "*.jpg" | rename 's/ //g'
 
 
 
