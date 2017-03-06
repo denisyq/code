@@ -585,6 +585,36 @@ static成员函数不能是const,也不能是虚函数
 		}
 	}
 
+26. 限制某个class产生的对象数量
+	不能产生对象，比如纯虚函数，或者把constructor放进private里面
+	//boost::noncopyable是把赋值构造和拷贝构造给放进private
+	如何只产生一个？
+	extern Printer& thePrinter();
+	class PrintJob;
+	class Printer{
+	public:
+		void submitJob(const PrintJob& job);
+		void reset();
+		...
+		friend Printer& thePrinter();//全局函数，被申请为friend
+
+	private:
+		Printer();
+		Printer(const Printer& rhs);
+	};
+	Printer& thePrinter(){
+		static Printer p;
+		return p;
+	}
+	三个看点：
+	1. Printer class 的构造函数是private,压制对象的产生 
+	2. 全局函数thePrinter被Printer申请为friend,致使thePrinter不受私有构造函数的影响
+	3. thePrinter 内含static Printer 对象，意味着只有一个Printer产生。
+
+	thePrinter().reset();
+	thePrinter().submitJob(buffer)
+
+	这个里面thePrinter()是全局函数，并不是class Printer内部函数，也不是他的static 成员函数。
 
 
 
