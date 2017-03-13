@@ -93,3 +93,99 @@ int main(int argc, char** argv){
 	
 	return 0;
 }
+
+
+/*********************************
+ * boost_bind & boost_function
+ *********************************/
+Example 1:
+
+class Thread{
+	public:
+		typedef boost::function<void()> ThreadCallback;
+		Thread(ThreadCallback cb): cb_(cb){}
+		void start();
+	private:
+		void run(){cb_();}
+		ThreadCallback cb_;
+};
+class Foo{
+	public:
+		void runInThread();
+		void runInAnotherThread(int);
+};
+
+Foo foo;
+Thread t1(boost::bind(&Foo::runInThread(), &foo));
+Thread t1(boost::bind(&Foo::runInAnotherThread(), &foo, 43));
+t1.start();
+t2.start();
+
+/*****************/
+Example 2:
+class Connection;
+class NetServer : boost::noncopyable{
+	public:
+		typedef boost::function<void(Connection*)> ConnectionCallback;
+		typedef boost::function<void(Connection*, const void*, int len)> MessageCallback;
+
+		NetServer(int port);
+		~NetServer();
+		
+		void registerConnectionCallback(const ConnectionCallback&);
+		void registerMessageCallback(const MessageCallback&);
+		void sendMessage(Connection*, const void*, int len);
+
+};
+
+class EchoService{
+	public:
+		typedef boost::function<void(Connection*, const void*, int)> SendMessageCallback;
+		EchoService(const SendMessageCallback& sendMsgCb): sendMessageCb_(sendMsgCb){}
+		void onMessage(Connection* conn, const void* buf, int size){
+			sendMessageCb_(conn,buf,size);
+		}
+		void onConnection(Connection* conn){}
+	private:
+		SendMessageCallback sendMessageCb_;
+};
+
+int main(){
+	NetServer server(7);
+	EchoService echo(boost::bind(&NetServer::sendMessage, &server, _1, _2, _3));
+	server.registerMessageCallback(boost::bind(&EchoService::onMessage, &echo, _1, _2, _3));
+	server.registerConnectionCallback(boost::bind(&EchoService::onConnection, &echo, _1));
+}
+
+
+/*****************/
+经典问题，如果企鹅不能飞，能否继承bird类
+用boost::bind & boost::function来解决
+class Penguin{
+	public:
+		void run();
+		void swim();
+};
+class Sparrow{
+	public:
+		void fly();
+		void run();
+};
+
+typedef boost::function<void()> FlyCallback;
+typedef boost::function<void()> RunCallback;
+typedef boost::function<void()> SwimCallback;
+
+class Foo{
+	public:
+		Foo(FlyCallback flyCb, RunCallback runCb): flyCb_(flyCb), runCb_(runCb){}
+	private:
+		FlyCallback flyCb_;
+		RunCallback runCb_;
+};
+
+int main(){
+	Sparrow s;
+	Penguin p;
+	Foo foo(boost::bind(&Sparrow::fly, &s), boost::bind(&Sparrow::run, &s));
+}

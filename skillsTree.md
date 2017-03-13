@@ -42,5 +42,8 @@
 
 ##Language
 1. C++
-2. Python
+	1. boost/tr1 module:
+		shared_ptr, bind, 
+	2. note_cpp.cpp
+2. Python/Shell
 3. JAVA

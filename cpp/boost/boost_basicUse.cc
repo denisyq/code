@@ -11,24 +11,35 @@ private:
   noncopyable(const noncopyable&);
   noncopyable& operator=(const noncopyable&);
 };
-/////////////////////////////////////////////////////
 
+
+
+/***************************************************/
 /* shared_ptr */
 #include <boost/shared_ptr.hpp>
 boost::shared_ptr<int> sp(new int(4));
 
-
 /* weak_ptr */
 #include <boost/weak_ptr.hpp>
 boost::weak_ptr<int> wkSp;
-/////////////////////////////////////////////////////
 
+
+
+
+
+/***************************************************/
 /* function */
 #include <boost/function.hpp>
 typedef boost::function<void ()> ThreadFunc;
 ThreadFunc func_;
-/////////////////////////////////////////////////////
 
+
+
+
+
+
+
+/***************************************************/
 /* ptr_container */
 #include <boost/ptr_container/ptr_vector.hpp>
 //in directory boost/ptr_container/*, we have \
@@ -52,8 +63,13 @@ boost::ptr_set<int> ps;
 ps.insert(new int(3));
 ps.insert(new int(4));
 cout<<*ps.begin()<<endl;
-////////////////////////////////////////////////////////
 
+
+
+
+
+
+/***************************************************/
 /* boost static assert */
 #include <boost/static_assert.hpp>
 BOOST_STATIC_ASSERT(2>=1);
