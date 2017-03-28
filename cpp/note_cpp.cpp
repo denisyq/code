@@ -52,13 +52,14 @@ Derived *de=base;//错误，不能这样赋值
 	Base *pb;
 	Derived *pd;
 
-	1. 如果用派生类指针给基类指针
+	1. 如果用派生类指针给基类指针,本质上是执行基类的函数，只有碰到虚函数，才会找到派生类的实现的重写代码
 	Base *pb = pd;
 	pb->foo();//如果foo函数不是虚函数，虽然是派生类指针给的基类，但是调用的是基类的foo函数
 	pb->fun();//如果fun是虚函数，好，基类虚函数有虚函数列表，找到实际是pd这个派生类的地址，用pd的fun函数实现
 	
 	2. 如果用基类指针给派生类指针 
 	Derived *pd = pb;//编译不通过
+	Derived *pd = dynamic_cast<Derived*>(pb);//这样可以
 
 //虚函数
 虚函数有虚函数列表，知道偏移地址
@@ -461,6 +462,7 @@ static成员函数不能是const,也不能是虚函数
 	那如果38条的复用能实现，为啥还需要private继承？
 	当有protected成员或virtual函数牵扯进来的时候，才需要用到private继承，其他都可以用复用实现。
 	因为复用不能调用protected成员；而虚函数需要子类去实现，复用无效，或是想重新定义虚函数接口，则需要用private继承。
+	总结：private继承,1.当需要使用基类protected, 2.当需要实现基类虚函数接口
 
 	class Widget{//这种复用的方法
 	private:

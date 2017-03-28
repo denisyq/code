@@ -37,3 +37,21 @@ find ./ -maxdepth 1 ! -type d -iname "*" |xargs -i mv {} {}.bak #修改每个文
 #9 ulimit -a
 stack size in linux: 8M (can use "ulimit -s 1024" to change size)
 stack size in wins:  1M
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
