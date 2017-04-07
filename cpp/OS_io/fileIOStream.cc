@@ -156,3 +156,6 @@ fwrite(&item, sizeof(item), 1, fp)
 * snprintf
 ***********/
 6. int snprintf(char* buf, size_t n, "%d",...)
+
+
+/***********/
