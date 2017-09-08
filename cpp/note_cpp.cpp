@@ -620,6 +620,14 @@ static成员函数不能是const,也不能是虚函数
 
 
 
-
-
-
+################
+判断入参有哪些？
+################
+for(int i=0;i<argc;i++){
+    if(strcmp(argv[i], "delu1") == 0)
+        tmp += "delu1 ";
+    if(strcmp(argv[i], "delu2") == 0)
+        tmp += "delu2 ";
+    if(strcmp(argv[i], "delu3") == 0)
+        tmp += "delu3 ";
+}   

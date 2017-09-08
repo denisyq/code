@@ -38,6 +38,10 @@ find ./ -maxdepth 1 ! -type d -iname "*" |xargs -i mv {} {}.bak #修改每个文
 stack size in linux: 8M (can use "ulimit -s 1024" to change size)
 stack size in wins:  1M
 
+#10 ulimit -c unlimited
+在linux中运行代码，遇到core dump但是却没有core文件产生，是因为ubuntu抑制了core文件产生。
+用ulimit -a查看第一行的core文件大小，修改之。
+
 
 
 
