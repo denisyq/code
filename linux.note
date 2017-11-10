@@ -3,6 +3,13 @@ gcc -fPIC -shared -o abc.so abc.c
 //use it. g++ main.cc -o main -L. -labc
 //main binary should be with so library, or get can not load shared library error.
 
+-L. 是在编译的时候，告诉系统so库在哪里，但是最后运行时，却找不到
+问题是在：
+1. 配置LD_LIBRARY_PATH
+Open .bashrc => export LD_LIBRARY_PATH=$LD_LIBRARY_PATH: => source .bashrc
+2. 修改/etc/ld.so.conf
+3. 为库创建软连接，一般在/usr/lib下面(/etc/ld.so.conf), 会放so库，那么我们为so库创建一个/usr/lib/的软连接
+
 #2如何在putty中设置中文
 1. putty的option，找到windows->translation,里面有个地方设置utf-8
 2. 在file中写中文，保存可能会遇到write error，看下:set fenc,如果不是utf-8，需要在.vimrc里设置set fileencoding=utf-8

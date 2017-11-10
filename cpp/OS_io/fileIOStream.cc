@@ -158,4 +158,43 @@ fwrite(&item, sizeof(item), 1, fp)
 6. int snprintf(char* buf, size_t n, "%d",...)
 
 
-/***********/
+/***********************************/
+//C++中读文件夹，可以替代shell部分功能
+/***********************************/
+#include <sys/types.h>
+#include <dirent.h>
+vector<string> getFiles(string cate_dir)
+{
+    vector<string> files;
+    DIR *dir;
+    struct dirent *ptr;
+	string basePath(cate_dir+"/");
+//opendir ++>DIR *dir = opendir(char*) ; ++> NULL:failed
+    if ((dir=opendir(cate_dir.c_str())) == NULL){
+            printf("Open dir error...  %s\n", cate_dir.c_str());
+			return 0;
+    }
+//struct dirent *ptr = readdir(DIR*)
+/* struct dirent{
+	log d_ino;
+	off_t d_off;//offset
+	unsigned short d_reclen;//length of d_name
+	unsigned short d_type;  //type of d_name
+	char d_name[NAME_MAX+1];//file name, max to 255 char
+*/
+    while ((ptr=readdir(dir)) != NULL)
+    {
+        if(strcmp(ptr->d_name,".")==0 || strcmp(ptr->d_name,"..")==0)    ///current dir OR parrent dir   
+                continue;
+        else if(ptr->d_type == 8)    ///file   
+            files.push_back(ptr->d_name);
+        else if(ptr->d_type == 10)    ///link file   
+            continue;
+        else if(ptr->d_type == 4)    ///dir   
+            //files.push_back(ptr->d_name);  
+    }
+    closedir(dir);
+	//sort(files.begin(), files.end());  
+    return files;
+}
+
