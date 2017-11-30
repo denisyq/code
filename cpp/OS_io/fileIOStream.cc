@@ -198,3 +198,25 @@ vector<string> getFiles(string cate_dir)
     return files;
 }
 
+/*************************************
+	读取a.txt文件
+  **********************************/
+//a.txt 
+// 1,1 ==> ss >> x >> t >> y
+// 2 2 ==> ss >> x >> y
+fstream ff("a.txt", ios::in);
+string s;
+if(!ff)
+    return 0;
+
+while(getline(ff, s)){
+    stringstream ss(s);
+    int x,y;
+    char t;
+    if(!(ss >> x >> t >> y)){//读取空格无所谓，逗号啥的不行
+        cout<<"error happens"<<endl;
+        return 0;
+    }
+    cout<<"X:Y:"<<x<<" "<<y<<endl;
+}
+

@@ -302,7 +302,8 @@
 	#正确的写法：
 	find ./ -iname "*.jpg" | rename 's/ //g'
 
-
+33. 处理文本字符串中的空格
+	cat tmp.txt | sed 's/ //g'
 
 
 
