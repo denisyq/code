@@ -56,13 +56,24 @@ git manual
 1. ssh-keygen -t rsa -C "xx@gmail.com" ==> cat .ssh/id_rsa.pub
 2. git init
 3. git clone username@host:/remote-path/
-4. [working dir] == add == [stage index] == commit == [HEAD]
+
+	[working dir] == add == [stage index] == commit == [HEAD]
 	git add 
 	git commit -m "update"
 	git status
 	git push origin master (git remote add origin <server>)
 
-	branch: git checkout -b feature_branch
+	[workding dir] <== checkout <== [stage dir] <== reset <== [HEAD] <== reset --hard origin/master <== [remote server]
+	git fetch origin;
+	git reset --hard origin/master
+	git reset HEAD <filename>
+	git reset HEAD^ <filename> ==> HEAD再往前一个版本,当然还有HEAD^^ 
+	==> 这种不带--hard，是将[commit/HEAD]转换回[stage index]，[workding dir]不改变，但是带上--hard就是从头到尾都改变了
+	git reset --hard <commit-id>
+	git checkout -- <filename> //没有--，就是变换branch了
+
+	branch: 
+			git checkout -b feature_branch
 			git checkout master
 			git branch -d feature_branch
 			git push origin <branch>
@@ -71,17 +82,17 @@ git manual
 			//肯定有conflicts,手动修改
 			git diff <source_branch> <target_branch>
 
-	Log:	git log
+	Log:	
+			git log
 			git log --author=bob
 			git log --pretty=oneline
 			git log --graph --oneline --decorate --all
 			git log --help
 
-	[workding dir] <== checkout <== [stage dir] <== reset <== [HEAD] <== reset --hard origin/master <== [remote server]
-	git fetch origin;
-	git reset --hard origin/master
-	git reset HEAD
-	git checkout -- <filename> //没有--，就是变换branch了
+	diff: 
+			git diff <filename> ==>针对workding dir 和 stage index 比较差异
+			git diff HEAD -- <filename> ==> 针对working dir 和 [HEAD/commit] 比较
+			git diff --cached <filename> ==> 针对[commit/HEAD] 和 [Stage index] 比较差异
 	  
 
 
