@@ -49,6 +49,14 @@ stack size in wins:  1M
 在linux中运行代码，遇到core dump但是却没有core文件产生，是因为ubuntu抑制了core文件产生。
 用ulimit -a查看第一行的core文件大小，修改之。
 
+##########
+samba
+#########
+sudo apt-get install samba
+sudo smbpasswd -a luyq
+vi /etc/samba/smb.conf
+sudo /etc/init.d/smaba restart
+
 
 ##############
 git manual
@@ -70,6 +78,7 @@ git manual
 	git reset HEAD^ <filename> ==> HEAD再往前一个版本,当然还有HEAD^^ 
 	==> 这种不带--hard，是将[commit/HEAD]转换回[stage index]，[workding dir]不改变，但是带上--hard就是从头到尾都改变了
 	git reset --hard <commit-id>
+	git reset --hard origin/master
 	git checkout -- <filename> //没有--，就是变换branch了
 
 	branch: 
@@ -78,9 +87,13 @@ git manual
 			git branch -d feature_branch
 			git push origin <branch>
 			//在feature分支修改的代码，merge到master
-			git checkout master; git merge feature_branch;
+			git checkout master
+			git merge feature_branch;
 			//肯定有conflicts,手动修改
 			git diff <source_branch> <target_branch>
+
+			如果这个bug分支有commit但是没有被合并就想删掉,用git branch -d bug_branch 是不行的
+			得用git branch -D bug_branch
 
 	Log:	
 			git log
@@ -93,7 +106,54 @@ git manual
 			git diff <filename> ==>针对workding dir 和 stage index 比较差异
 			git diff HEAD -- <filename> ==> 针对working dir 和 [HEAD/commit] 比较
 			git diff --cached <filename> ==> 针对[commit/HEAD] 和 [Stage index] 比较差异
+
+	rm:
+			git rm <filename>
+	
+	remote:
+			git remote
+			git remote -v
+			git remote add origin git@xx-repo-name.git
 	  
+	stash:
+			场景：做dev的同时，来了bug要处理
+			in branch dev 用git stash保存未完成的开发，这个时候working dir 是干净的
+			
+			需要从哪个branch复制个分支出来解bug
+			git checkout master
+			git checkout -b bug_1130
+			
+			修改好了bug，需要merge到master分支
+			git checkout master
+			git merge bug_1130
+
+			删除bug分支
+			git branch -d bug_1130
+
+			恢复未完成的dev开发
+			git stash list
+			git stash apply/drop/pop
+			git stash apply stash@{0}
+			一种是用git stash apply恢复，但是stash内容并没有删除掉，还需要用git stash drop来删除
+			还有一种是：git stash pop来恢复，同时，stash内容也删除掉了
+	tag:
+			git tab v1.0
+			git tab
+			对以前的commit打标签：git log --pretty=oneline; git tab v0.9 <commit-id>
+			git show v0.9
+			git tab -a v0.9 -m "Version 0.9 released" <commit-id>
+
+			git tab -d v0.9
+
+			git push origin v1.0
+			git push origin :refs/tags/v1.0 删除一个远程的标签
+
+	alias:
+			git config --global alias.st status
+			git config --global alias.co checkout
+			git config --global alias.ci commit
+			git config --global alias.br branch
+			git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 
 

@@ -305,6 +305,8 @@
 33. 处理文本字符串中的空格
 	cat tmp.txt | sed 's/ //g'
 
-
+34. 显示文本中某一行或者中间一段
+	cat tmp.txt | head -n 20 | tail -n +5 //首先显示前20行，然后tail后面，+10 意思是从第5行开始往后,共显示15行
+	cat tmp.txt | head -n 20 | tail -n 15 //这个跟上面的是一个结果
 
 
