@@ -21,4 +21,10 @@ int main(int argc, char* argv){
 
 	//g++0x to_string
 	string s = to_string(1001);
+
+	//string to float
+	float f = stof(string);
+	int i   = stoi(string);
+	//从第一个字符开始找,找到数字即开始保存，然后再转化成数字.
+	//找float不同的是可以存储小数点.
 }

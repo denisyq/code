@@ -57,6 +57,51 @@ sudo smbpasswd -a luyq
 vi /etc/samba/smb.conf
 sudo /etc/init.d/smaba restart
 
+##########
+挂载硬盘
+mount
+##########
+fdisk -lu 查看硬盘情况 一般出来 /dev/sda1 or /dev/sdb1
+mkdir /home/disk1 需要将硬盘挂载的目录，创建
+mount /dev/sda1 /home/disk1 挂载成功
+df -h 检查下
+
+这种情况下的挂载，一般在重启之后会丢失挂载
+vi /etc/fstab
+在里面增加一行
+/dev/sda1 /home/disk1 ext4 defaults 0 0
+reboot
+df -h
+
+方法二
+blkid 命令用来查看硬盘本身信息
+/dev/sda1: UUID="*******-********-*******" TYPE="ext4" PARTUUID="*****"
+vi /etc/fstab
+增加一行
+UUID=****-****-***** /home/disk1 ext4 defaults 0 0
+reboot
+
+#############
+openmp 多线程
+#############
+#include <omp.h>
+#pragma omp parallel num_threads(NUM_THREAD)
+{
+    id = omp_get_thread_num();
+    if (id == (NUM_THREAD -1)){
+        //the last thread
+    }else{
+		//do sth.
+    }
+
+}
+LOCAL_LDLIBS := -fopenmp
+LOCAL_CFLAGS := -mfpu=neon -fopenmp
+#这一段是neon
+ifeq ($(TARGET_ARCH_ABI), armeabi-v7a)
+LOCAL_ARM_NEON := true
+LOCAL_ARM_MODE := arm
+endif
 
 ##############
 git manual
