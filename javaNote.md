@@ -140,9 +140,27 @@ public class Math{
 静态方法：Math.pow(x,a)
 
 
+##值传递
+void swap(int a, int b);//我们知道这样肯定无法swap的，c++中一般是要么指针，要么引用
+void swap(Employee staff);//如果修改的是类对象的内部值，只有传递对象进来，才能改变，因为java对象本质上是指针
+void swap(Employee staff1, Employee staff2);//也是失败的
 
+##包
+import static java.lang.System.*;
+out.println();
 
-
+##继承
+class Manager extends Employee{//java中的继承都是公有继承
+	private int bonus;
+	public Manager(String name, ...){
+		super(name,..);//Employee class cons
+		bonus=0;
+	}
+	public getSalary(){
+		int baseSalary = super.getSalary();//调用父类的getSalary
+		return baseSalary + bonus;
+	}
+} 
 
 
 
