@@ -162,11 +162,107 @@ class Manager extends Employee{//java中的继承都是公有继承
 	}
 } 
 
+##阻止继承
+final class Executive extends Manager{
+}//对类的final
+
+class Executive extends Manager{
+	final void run(){}//对方法的final,防止多态，子类无法override
+}
+
+##强制转换
+Employee e = new Manager(); //子类赋给父类，没问题
+
+父类转化成子类：
+Manager boss = (Manager) employee[1];//报错
+if(employee[1] instanceof Manager){	
+	boss = (Manager) employee[1];//这样没问题，主要是确认employee[1]有Manager的特征
+	...
+
+}
+
+##抽象类
+public abstract String getDescription();
+如果类中有抽象方法,类名也要注明abstract.这个观点跟C++纯虚函数类似，有抽象方法，无法实例化。
 
 
+##Object所有类的超类
+也就是所有类，都天生带有Object的方法
+1, equals
+2, 相等型测试
+3, hashCode
+4, toString
 
 
+##泛型数组列表ArrayList
+ArrayList<Employee> staff = new ArrayList<Employee>();//类似与C++的vector
+1, void set(int index, T obj); //不能直接用[]来赋值
+2, T get(int index);
+3, void add(int index, T obj);
+4, T remove(int index);
 
+##枚举
+public enum Size{
+	SMALL,
+	MEDIUM,
+	LARGE
+};
+
+##接口
+public interface Demo{
+	void demo1();
+	void demo2();
+}
+class ABC implements Demo{
+}
+接口是类似纯虚类，里面只有类似纯虚函数，没有实现，一般设置为public(有且只有public).
+它定义的更多的是一个行为，例如Runable.对于接口的实例化，必须实现所有接口的方法.
+抽象类可以部分实现某一个方法，但是接口不会实现任何一个方法。
+
+Why需要接口，用抽象类不行吗？
+A:java中不允许多继承，也就是说，你不可以
+public class ABC extends Demo1, Demo2{} //Error
+但是你可以用接口这么实现：
+public class ABC extends Demo1 implements Demo2 // OK
+
+##对象克隆
+深拷贝和浅拷贝
+Obj.clone();
+
+##内部类
+public class ABC{
+	private int a,b;
+	public class innerClass implements ActionListener{
+		...	
+	}
+}
+一般，内部类是为了域名控制和访问控制，还有，为了callback回调方便，才使用的。
+public class InnerClassTest{
+	public static void main(String[] args){
+		TalkingClock clock = new TalkingClock(1000,true);
+		clock.start();
+	}
+}
+class TalkingClock{
+	private int interval;
+	private boolean beep;
+	public TalkingClock(int interval, boolean beep){
+		this.interval = interval;
+		this.beep     = beep;
+	}
+	public void start(){
+		ActionListener listener = new TimePrinter();
+		Timer t = new Timer(interval, listener);
+		t.start();
+	}
+	public class TimePrinter implements ActionListener{
+		public void actionPerformed(ActionEvent event){
+			Date now = new Date();
+			System.out.println("At the tone, the time is " + now);
+			if(beep) Toolkit.getDefaultToolkit().beep();
+		}
+	}
+}
 
 
 
