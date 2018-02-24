@@ -264,9 +264,71 @@ class TalkingClock{
 	}
 }
 
+##ArrayList等数据结构和基本算法(sort/search)
+这部分内容，需要结合具体，类似C++STL，单独来总结。
 
 
+##多线程
+Runnable r = new BallRunnable(b,comp);
+Thread t = new Thread(r);
+r.start();
 
+public class BallRunnable implements Runnable{
+	public BallRunnable(Ball aBall, Component aComponent){
+		ball = aBall;
+		component = aComponent;
+	}
+	public void run(){
+		try{
+			...
+		}catch(InterruptedException e){
+
+		}
+	}
+}
+1. Thread t = new Thread(Runnable target);
+2. void start();//调用Runnable的run()方法
+
+getState()线程状态 New/Runnable/Blocked/Waiting/Timed waiting/Terminated
+new Thread时候是New状态，然后t.start()时候是Runnable状态，什么时候跑起来是CPU说了算。
+调度的时候，可能处在Blocked/Waiting/Timed waiting 状态，最后死了就Terminated
+
+import java.util.concurrent.locks.*;
+public class Bank{
+	private final double[] account;
+	private Lock bankLock;
+	private Condition sufficientFunds;
+
+	public Bank(){
+
+	}
+	public void transfer() throws InterruptedException{
+		backLock.lock();
+		try{
+			while(account[from] < amount)
+				sufficientFunds.await();
+			
+			account[from] -= amount;
+			account[to]   += amount;
+
+			sufficientFunds.signalAll();
+		}final{
+			bankLock.unlock();
+		}
+	}
+}
+
+//synchronized
+public class Bank{
+	private double[] account;
+	public synchronized void transfer(int from, int to, int amount) throws InterruptedException{
+		while(account[from] < amount)
+			wait();
+		account[from] -= amount;
+		account[to]   += amount;
+		notifyAll();
+	}
+}
 
 
 
