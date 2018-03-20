@@ -100,7 +100,6 @@
 				else
 					iter++;
 			}
-			k
 12. STL不完全能够做到线程安全
 	- 最好还是上锁安全点
 	- RAII(Resource Acquisition is initialization), 用RAII来创建LOCK

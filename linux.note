@@ -95,6 +95,19 @@ openmp 多线程
     }
 
 }
+这样打印出来的，是所有的线程都执行一遍。但是每个线程不一定能执行完毕，就可能被其他线程抢占
+#pragma omp parallel num_threads(4)
+{
+	cout<<omp_get_thread_num()<<omp_get_thread_num();
+}
+比如打印出来是00122133,1在执行一半时被打断。如何让他打印出00112233,连续的，就需要用critical
+#pragma omp parallel num_threads(4)
+{
+	#pragma omp critical
+	cout<<omp_get_thread_num()<<omp_get_thread_num();
+}
+#g++ a.cc -o a -fopenmp//linux compile
+#android compile
 LOCAL_LDLIBS := -fopenmp
 LOCAL_CFLAGS := -mfpu=neon -fopenmp
 #这一段是neon

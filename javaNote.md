@@ -508,16 +508,37 @@ Iterator:我们说Collection依赖于Iterator，是因为Collection的实现类�
 ##ArrayList 
 顺序容器，底层是数组实现，不是list. ArrayList不是线程安全的，单个线程可以用，多线程用Vector.
 随机访问高，随机增减效率低
-add(E e);
-addAll(ArrayList a);
-clear()/clone()/isEmpty/resize
-E get(int index);
-int indexOf(E e);
-E remove(int index);
-boolean remove(E e);
-E set(int index);
-toArray();
-sort();
+	boolean             add(E object)
+	boolean             addAll(Collection<? extends E> collection)
+	void                clear()
+	boolean             contains(Object object)
+	boolean             containsAll(Collection<?> collection)
+	boolean             equals(Object object)
+	int                 hashCode()
+	boolean             isEmpty()
+	Iterator<E>         iterator()
+	boolean             remove(Object object)
+	boolean             removeAll(Collection<?> collection)
+	boolean             retainAll(Collection<?> collection)
+	int                 size()
+	<T> T[]             toArray(T[] array)
+	Object[]            toArray()
+	// AbstractCollection中定义的API
+	void                add(int location, E object)
+	boolean             addAll(int location, Collection<? extends E> collection)
+	E                   get(int location)
+	int                 indexOf(Object object)
+	int                 lastIndexOf(Object object)
+	ListIterator<E>     listIterator(int location)
+	ListIterator<E>     listIterator()
+	E                   remove(int location)
+	E                   set(int location, E object)
+	List<E>             subList(int start, int end)
+	// ArrayList新增的API
+	Object               clone()
+	void                 ensureCapacity(int minimumCapacity)
+	void                 trimToSize()
+	void                 removeRange(int fromIndex, int toIndex)
 //遍历
 for(int i:size) ArrayList.get(i);
 Integer value = null;
