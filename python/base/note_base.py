@@ -247,7 +247,7 @@ print "        hello     ".rstrip().lstrip()
 
 #translate
 from string import maketrans
-table=maketrans('abc','xyz')
+table=maketrans('abc','xyz') #a变成x, b->y, c->z
 print "abc efg abc".translate(table)
 print "abc efg abc".translate(table,' ')
 
@@ -260,6 +260,8 @@ print ''.join(d)
 str.capitalize()
 str.endswith("abc")
 str.startswith("abc")
+match = ('abc', 'bc')#tuple;
+str.endswith(match)
 str.swapcase()
 str.title()
 #isalpha(), isdecimal(), isdigit(), isnumeric(), islower(), isupper(), istitle()
