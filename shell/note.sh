@@ -309,4 +309,6 @@
 	cat tmp.txt | head -n 20 | tail -n +5 //首先显示前20行，然后tail后面，+10 意思是从第5行开始往后,共显示15行
 	cat tmp.txt | head -n 20 | tail -n 15 //这个跟上面的是一个结果
 
-
+35. 找到所有*.jpg文件，然后用jpeginfo打印信息，剔除错误图片，awk用来打印第一列信息
+    find . -iname "*.jpg" -exec jpeginfo -c {} \; | grep -E "WARNING|ERROR" > need_delete.sh
+    cat need_delete.sh | awk '{print $1}' | xargs rm

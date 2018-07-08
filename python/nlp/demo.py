@@ -95,6 +95,10 @@ with open('/home/luyq/nlp/test_ch.txt','r') as f:
         print (len(line_seg), line_seg)
     '''
 
+with open('/home/luyq/nlp/test.cpp', 'r') as f:
+    test = f.read();
+    for line in f.readlines():
+        print (len(line))
 
 
 '''
