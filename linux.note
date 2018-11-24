@@ -164,6 +164,8 @@ git manual
 			git diff <filename> ==>针对workding dir 和 stage index 比较差异
 			git diff HEAD -- <filename> ==> 针对working dir 和 [HEAD/commit] 比较
 			git diff --cached <filename> ==> 针对[commit/HEAD] 和 [Stage index] 比较差异
+            git diff <commit-id> <commit-id> ==> 查看两个版本之间的改动
+            git diff <commit-id>:./<dir>/<filename> <commit-id>:./<dir>/<filename> ==>不同commit-id的文件对比
 
 	rm:
 			git rm <filename>

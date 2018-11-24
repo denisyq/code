@@ -631,3 +631,22 @@ for(int i=0;i<argc;i++){
     if(strcmp(argv[i], "delu3") == 0)
         tmp += "delu3 ";
 }   
+
+
+################
+回调函数
+###############
+回调函数在Java中比较常见于异步操作中
+int notify(string s){
+    cout<< "notify: "<<s<<endl;    
+}
+
+int doSth(int nsleep, string s, int(*n)(string)){
+    cout<<"do sth: ..."<<endl;
+    sleep(nsleep);
+    n(s);
+}
+int main(int argc, char** argv){
+    doSth(1, "finished", notify);  
+}
+
