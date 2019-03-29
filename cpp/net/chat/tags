@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUF_SIZE	chat.h	19;"	d
+CHAT_H_	chat.h	3;"	d
+CHK	chat.h	31;"	d
+CHK2	chat.h	32;"	d
+CMD_EXIT	chat.h	28;"	d
+EPOLL_RUN_TIMEOUT	chat.h	22;"	d
+EPOLL_SIZE	chat.h	23;"	d
+SERVER_HOST	chat.h	21;"	d
+SERVER_PORT	chat.h	20;"	d
+STR_MESSAGE	chat.h	26;"	d
+STR_NOONE_CONNECTED	chat.h	27;"	d
+STR_WELCOME	chat.h	25;"	d
+handle_message	chat_server.cc	/^int handle_message(int client)  $/;"	f	signature:(int client)
+list_of_clients	chat_test.cc	/^list<int> list_of_clients;  \/\/store clients$/;"	v
+main	chat_client.cc	/^int main(int argc, char *argv[])$/;"	f	signature:(int argc, char *argv[])
+main	chat_client2.cc	/^int main(int argc, char *argv[])$/;"	f	signature:(int argc, char *argv[])
+main	chat_server.cc	/^int main(int argc, char **argv){$/;"	f	signature:(int argc, char **argv)
+main	chat_test.cc	/^int main(int argc, char *argv[]){$/;"	f	signature:(int argc, char *argv[])
+message	chat_client.cc	/^char message[BUF_SIZE];$/;"	v
+message	chat_test.cc	/^char message[BUF_SIZE];     \/\/message buffer$/;"	v
+msg_in	chat_client2.cc	/^char msg_in[BUF_SIZE];$/;"	v
+msg_out	chat_client2.cc	/^char msg_out[BUF_SIZE];$/;"	v
+res	chat_test.cc	/^int res;$/;"	v
+setnonblocking	chat_server.cc	/^int setnonblocking(int sockfd){$/;"	f	signature:(int sockfd)
+tStart	chat_test.cc	/^clock_t tStart;$/;"	v

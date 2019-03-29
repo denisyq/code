@@ -225,6 +225,12 @@ scp -r sky@109.123.100.65:/remote/dir /local/dir    ==> 从远程服务器拿文
 scp /local/dir/file.tar.gz sky@109.123.100.65:/remote/dir
 scp -r /local/dir sky@109.123.100.65:/remote/dir
 
+#####################
+查看apk信息的so共享库
+#####################
+unzip weixin703android1400.apk && strings `find . |grep .so` |grep aec #find前面不是引号，是执行符号
+
+
 ################
 ctags & taglist
 ################
